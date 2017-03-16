@@ -1,0 +1,14 @@
+{
+  "name": "amqp-consumer",
+  "version": "0.1.0",
+  "description": "",
+  "main": "Consumer.js",
+  "scripts": {
+    "test": "exit 1"
+  },
+  "author": "Adam Karbiener",
+  "license": "MIT",
+  "dependencies": {
+    "amqplib": "0.5.1"
+  }
+}
