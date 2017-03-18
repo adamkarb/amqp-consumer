@@ -1,11 +1,26 @@
 {
   "name": "amqp-consumer",
   "version": "0.1.0",
-  "description": "",
+  "description": "Consuming amqp channels with ease.",
   "main": "Consumer.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adamkarb/amqp-consumer"
+  },
+  "bugs": {
+    "url": "https://github.com/adamkarb/amqp-consumer/issues"
+  },
   "scripts": {
     "test": "exit 1"
   },
+  "keywords": [
+      "rabbitmq",
+      "amqp",
+      "consumer",
+      "message",
+      "messaging",
+      "message-queue"
+  ],
   "author": "Adam Karbiener",
   "license": "MIT",
   "dependencies": {
