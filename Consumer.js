@@ -8,9 +8,10 @@ function Consumer(opts) {
 
     this.options = {
         name: typeof opts.name === 'string' ? opts.name : 'Consumer',
-        queue: opts.queue,
-        host: opts.host,
-        debug: opts.debug === true
+        queue: opts.queue || 'test',
+        host: opts.host || 'amqp://localhost:5672',
+        raw: opts.raw === true,
+        quiet: opts.quiet === true
     };
 
     this.events = {
@@ -43,7 +44,7 @@ Consumer.prototype.on = function(event, callback) {
 
 Consumer.prototype.log = function(msg) {
 
-    if (this.options.debug) {
+    if (!this.options.quiet) {
 
         console.log(`[ ${this.options.name} ] ${msg}`);
 
@@ -74,12 +75,12 @@ Consumer.prototype.connect = function(opts) {
     })
     .then(() => {
 
-        return this.setHandler();
+        this.setHandler();
 
     })
     .then(() => {
 
-        this.log(`Listening for messages on queue ${this.broker.queue}.`);
+        this.log(`Listening for messages on queue "${this.broker.queue}".`);
         return this.events.connect();
 
     })
@@ -118,19 +119,17 @@ Consumer.prototype.connectToQueue = function(queueName) {
 
 Consumer.prototype.setHandler = function() {
 
-    return this.broker.channel.consume(this.broker.queue, (msg) => {
+    this.broker.channel.consume(this.broker.queue, (buff) => {
 
-        msg = msg.content.toString();
+        var msg = this.options.raw ? buff.content : buff.content.toString();
         this.events.consume(msg);
-        this.broker.channel.ack(msg);
+        this.broker.channel.ack(buff);
 
     });
 
 };
 
 Consumer.prototype.exit = function(err) {
-
-    console.log( 'err', err );
 
     var exit = function(error) {
 
